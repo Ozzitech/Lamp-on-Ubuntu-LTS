@@ -63,7 +63,7 @@ mkdir -p /var/www/html/$WEBSITE/{public_html,logs}
 
 cd /var/www/html/$WEBSITE/public_html/
 
-echo "<h1>Stackscript: Ubuntu 18.04 LAMP successfully installed :D<h1/></html>" > index.html
+echo "<h1>$WEBSITE se up<h1/>" > index.html
 
 cd
 

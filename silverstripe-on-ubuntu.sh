@@ -43,30 +43,27 @@ cp /etc/apache2/sites-available/000-default.conf /etc/apache2/sites-available/$W
 
 # configuration of vhost file
 cat <<END >/etc/apache2/sites-available/$WEBSITE.conf
-<Directory /var/www/html/$WEBSITE/public_html>
+<Directory /var/www/html/$WEBSITE/public>
     Require all granted
 </Directory>
 <VirtualHost *:80>
         ServerName $WEBSITE
         ServerAlias www.$WEBSITE
         ServerAdmin webmaster@localhost
-        DocumentRoot /var/www/html/$WEBSITE/public_html
-
+        DocumentRoot /var/www/html/$WEBSITE/public
         ErrorLog /var/www/html/$WEBSITE/logs/error.log
         CustomLog /var/www/html/$WEBSITE/logs/access.log combined
 
 </VirtualHost>
 END
 
+cd /var/www/html
 
-mkdir -p /var/www/html/$WEBSITE/{public_html,logs}
+composer create-project silverstripe/installer ./$WEBSITE 4.3.3
 
-cd /var/www/html/$WEBSITE/public_html/
+mkdir -p /var/www/html/$WEBSITE/{logs}
 
-echo "<h1>$WEBSITE set up<h1/>" > index.html
-
-cd
-
+chown -R www-data:www-data /var/www/html/$WEBSITE
 
 rm /var/www/html/index.html
 
@@ -74,10 +71,8 @@ rm /var/www/html/index.html
 #Link your virtual host file from the sites-available directory to the sites-enabled directory:
 sudo a2ensite $WEBSITE.conf
 
-
 #Disable the default virtual host to minimize security risks:
 a2dissite 000-default.conf
-
 
 # restart apache
 systemctl reload apache2

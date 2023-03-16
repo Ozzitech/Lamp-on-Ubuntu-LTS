@@ -102,4 +102,9 @@ sed -ie "s/DirectoryIndex index.html index.cgi index.pl index.php index.xhtml in
 # making directory for php? giving apache permissions to that log? restarting php
 mkdir /var/log/php
 chown www-data /var/log/php
+
+#install composer
+apt install composer -y
+
 systemctl restart apache2
+
